@@ -14,15 +14,18 @@
 
 int main(int argc, const char * argv[]) {
     
-    
+    //creates initial dynamic array size
     int nYears=0;
     std::cout << "How many years you want to enter?" << std::endl;
     std::cin >> nYears;
+    //4 year moving average must have more than 3 points of data
     if(nYears >3)
     {
+        //dynamic array for flexible number of data entries
     int *arrayYear = new int[nYears];
     int i=0;
     int money;
+        //filling in array with data points
     for( i=0; i<nYears; i++)
     {
         std::cout << "Enter the profit" << std::endl;
@@ -30,11 +33,12 @@ int main(int argc, const char * argv[]) {
         arrayYear[i] = money;
     }
   
-    
+    //place holder variables to compute average
     int yearOne=0;
    int yearTwo=0;
     int yearThree=0;
     int yearFour=0;
+        //new array to hold 4 year average values
     int *arrayFourYear = new int[nYears-3];
         for (i=0; i< nYears-3; i++)
         {
@@ -52,7 +56,7 @@ int main(int argc, const char * argv[]) {
     {
         std::cout<<arrayFourYear[i];
     }
-
+//dealocation. not that it really matters here...
     delete[] arrayFourYear;
     
     std::cin.ignore();
@@ -66,6 +70,7 @@ int main(int argc, const char * argv[]) {
     
     return 0;
     }
+    //very bad error handling
     else{
         std::cout<<"Not enough data";
     }
