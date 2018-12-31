@@ -1,0 +1,155 @@
+//myList.h class/header file
+#pragma once
+#include <iostream>
+
+
+	class myList
+	{
+	private:
+		typedef struct node
+		{
+			int data;
+			std::string name;
+			node * next;
+		}*nodePtr;
+		nodePtr head;
+		nodePtr curr;
+		nodePtr temp;
+	public:
+		myList();
+		void addNode(int addData);
+		void deleteNode(int delData);
+		void printList();
+		void damageNode(int location, int damage);
+		
+	};
+
+---------------------------------------------------------------
+//main.cpp
+#include <iostream>
+#include <cstdlib>
+#include "myList.h"
+
+
+int main()
+{
+	myList mobGen;
+	mobGen.addNode(10);
+	mobGen.addNode(15);
+	mobGen.addNode(20);
+	
+	int hit;
+	int monNum;
+	std::cout << "Which monster do you want to hit";
+	std::cin >> monNum;
+	std::cout << "Enter Damage";
+	std::cin >> hit;
+	std::cin.ignore();
+	
+	
+	mobGen.printList();
+	
+	
+	mobGen.damageNode(monNum, hit);
+		
+	
+	mobGen.printList();
+	std::cin.ignore();
+}
+---------------------------------------------------------------
+//source.cpp
+#include <iostream>
+#include <cstdlib>
+#include "myList.h"
+
+
+
+
+myList::myList()
+{
+	head = nullptr;
+	curr = nullptr;
+	temp = nullptr;
+}
+
+void myList::addNode(int addData)
+{
+	nodePtr n = new node;
+	n->next = nullptr;
+	n->data = addData;
+
+	if (head != nullptr)
+	{
+		curr = head;
+		while (curr -> next != nullptr)
+		{
+			curr = curr->next;
+		}
+		curr->next = n;
+	}
+	else
+	{
+		head = n;
+	}
+}
+
+void myList::deleteNode(int delData)
+{
+	nodePtr delPtr = nullptr;
+	temp = head;
+	curr = head;
+	while (curr != nullptr && curr->data != delData)
+	{
+		temp = curr;
+		curr = curr->next;
+	}
+	if (curr == nullptr)
+	{
+		std::cout << delData << "not found" << std::endl;
+	}
+	else
+	{
+		delPtr = curr;
+		curr = curr->next;
+		temp->next = curr;
+		if (delPtr == head)
+		{
+			head = head->next;
+			temp = nullptr;
+
+		}
+		delete delPtr;
+		std::cout << "The value " << delData << "was deleted" << std::endl;
+	}
+}
+
+void myList::printList()
+{
+	curr = head;
+	while (curr != nullptr)
+	{
+		std::cout << curr->data << std::endl;
+		//std::cout << curr->name << std::endl;
+		curr = curr->next;
+	}
+}
+
+
+
+void myList::damageNode(int location, int damage)
+{
+	
+	int count = 0;
+	curr = head;
+	while (curr != nullptr)
+	{
+		count++;
+		curr = curr->next;
+		if (count == location-1)
+		{
+			
+			curr->data = curr->data - damage;
+		}
+	}
+	
+}
