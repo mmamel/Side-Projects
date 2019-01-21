@@ -1,0 +1,81 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+#takes in an array and an index for that array to return an average from 4 data points
+def fourYearSum(moving_average_list, index):
+    count = 0;
+    length_of_list = len(moving_average_list)
+    sum_of_years = 0;
+    for data in range(index, index+3):
+        sum_of_years += moving_average_list[data];
+        count += 1;
+    average_of_years = sum_of_years/4
+
+    return average_of_years;
+#
+def error_Handle(userInput):
+    bool = True;
+    while bool == True:
+        count = 0;
+        list(userInput)
+        lenUserInput = len(userInput)
+        #use of ascii to check if input contains only numbers
+        for a in range(0, lenUserInput, 1):
+            char=userInput[a];
+            ascii=ord(char);
+            if ascii <48 or ascii >57:
+                count = count +1
+            if ascii == 46:
+                count = count -1
+        if count == 0:
+            bool = False;
+            return bool;
+        else:
+            print("Re-enter valid input");
+            return bool;
+
+def main():
+    bool = True;
+    nYears = 0;
+    nYears = int(input("How many years are being calculated?"));
+    moving_average_list = []
+    calculated_average_list = []
+    xaxis_time = []
+    updated_xaxis = []
+    if (nYears > 3):
+        for x in range(nYears):
+            data_point = input("Enter data point");
+            #bool = error_Handle(data_point)
+            moving_average_list.append(int(data_point));
+            year_entry = input("Enter the date/quarter")
+            xaxis_time.append(int(year_entry))
+            updated_xaxis.append(int(year_entry))
+
+        print(moving_average_list)
+        #creates same dimensions as calculated_average_list
+        updated_xaxis.pop();
+        updated_xaxis.pop();
+        updated_xaxis.pop(0);
+        for y in range(nYears-3):
+            calculated_data_point = fourYearSum(moving_average_list, y);
+            calculated_average_list.append(calculated_data_point)
+        print(calculated_average_list)
+        print(xaxis_time)
+        max = np.argmax(calculated_average_list)
+        min = np.argmin(calculated_average_list)
+        plt.plot(updated_xaxis, calculated_average_list);
+        #plt.axis(moving_average_list[0], moving_average_list[nYears], calculated_average_list[min], calculated_average_list[max])
+        plt.axis([xaxis_time[0], xaxis_time[nYears-1], calculated_average_list[0], calculated_average_list[nYears-4]]);
+        plt.ylabel('Yearly Profit')
+        plt.xlabel('Years')
+        plt.title("Four Year Moving Average");
+        #need to add a second dimension for Years
+        plt.show()
+    else:
+        print("Not enough data points")
+
+
+
+
+
+main();
